@@ -22,6 +22,7 @@ CREATE TABLE `users` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `username` VARCHAR(50) NOT NULL,
     `full_name` VARCHAR(100) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
     `created_at` DATETIME NOT NULL,
     `avatar` VARCHAR(255) NULL,
     PRIMARY KEY (`id`),
@@ -35,9 +36,9 @@ INSERT INTO `customers` (`id`, `full_name`, `email`, `phone`, `created_at`) VALU
     (4, 'Noel Villanueva', 'noel.villanueva@example.com', '+63 917 555 0104', '2026-10-01 09:15:00'),
     (5, 'Trisha Mendoza', 'trisha.mendoza@example.com', '+63 917 555 0105', '2026-10-01 09:30:00');
 
-INSERT INTO `users` (`id`, `username`, `full_name`, `created_at`) VALUES
-    (1, 'mgarcia', 'Miguel Garcia', '2026-10-01 08:00:00'),
-    (2, 'jtorres', 'Jasmine Torres', '2026-10-01 08:10:00'),
-    (3, 'rsalazar', 'Rina Salazar', '2026-10-01 08:20:00'),
-    (4, 'dlim', 'Daniel Lim', '2026-10-01 08:30:00'),
-    (5, 'asoriano', 'Andrea Soriano', '2026-10-01 08:40:00');
+INSERT INTO `users` (`id`, `username`, `full_name`, `password`, `created_at`) VALUES
+    (1, 'mgarcia', 'Miguel Garcia', '$2y$10$5J.N6PHS0Wltmk9bojOn/Oz1e0h9eQaDOMXw2UZe.lvvRNDPWoeAS', '2026-10-01 08:00:00'),
+    (2, 'jtorres', 'Jasmine Torres', '$2y$10$5J.N6PHS0Wltmk9bojOn/Oz1e0h9eQaDOMXw2UZe.lvvRNDPWoeAS', '2026-10-01 08:10:00'),
+    (3, 'rsalazar', 'Rina Salazar', '$2y$10$5J.N6PHS0Wltmk9bojOn/Oz1e0h9eQaDOMXw2UZe.lvvRNDPWoeAS', '2026-10-01 08:20:00'),
+    (4, 'dlim', 'Daniel Lim', '$2y$10$5J.N6PHS0Wltmk9bojOn/Oz1e0h9eQaDOMXw2UZe.lvvRNDPWoeAS', '2026-10-01 08:30:00'),
+    (5, 'asoriano', 'Andrea Soriano', '$2y$10$5J.N6PHS0Wltmk9bojOn/Oz1e0h9eQaDOMXw2UZe.lvvRNDPWoeAS', '2026-10-01 08:40:00');

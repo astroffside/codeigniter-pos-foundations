@@ -62,7 +62,9 @@ final class PosPagesTest extends CIUnitTestCase
         ];
 
         foreach ($pages as $path => $expectedContents) {
-            $result = $this->get($path);
+            $result = in_array($path, ['/customers', '/users'], true)
+                ? $this->withSession(['isLoggedIn' => true])->get($path)
+                : $this->get($path);
 
             $result->assertOK();
 

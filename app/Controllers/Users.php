@@ -36,13 +36,16 @@ class Users extends BaseController
     public function create()
     {
         $data = $this->userData();
+        $password = (string) $this->request->getPost('password');
+        $validationData = $data + ['password' => $password];
 
-        if (! $this->validateData($data, $this->userRules())) {
+        if (! $this->validateData($validationData, $this->userRules(null, true))) {
             return redirect()->to(site_url('users/new'))
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
         }
 
+        $data['password'] = password_hash($password, PASSWORD_DEFAULT);
         $data['created_at'] = date('Y-m-d H:i:s');
         $this->users->insert($data);
 
@@ -126,7 +129,7 @@ class Users extends BaseController
     /**
      * @return array<string, string>
      */
-    private function userRules(?int $ignoreId = null): array
+    private function userRules(?int $ignoreId = null, bool $requirePassword = false): array
     {
         $usernameRule = 'required|max_length[50]|is_unique[users.username]';
 
@@ -134,10 +137,16 @@ class Users extends BaseController
             $usernameRule = 'required|max_length[50]|is_unique[users.username,id,' . $ignoreId . ']';
         }
 
-        return [
+        $rules = [
             'username'  => $usernameRule,
             'full_name' => 'required|max_length[100]',
         ];
+
+        if ($requirePassword) {
+            $rules['password'] = 'required|min_length[8]|max_length[255]';
+        }
+
+        return $rules;
     }
 
     private function createAvatarThumbnail(UploadedFile $avatar): string

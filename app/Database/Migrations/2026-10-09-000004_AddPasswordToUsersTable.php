@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Database\Migrations;
+
+use CodeIgniter\Database\Migration;
+
+class AddPasswordToUsersTable extends Migration
+{
+    public function up()
+    {
+        $this->forge->addColumn('users', [
+            'password' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => true,
+                'after'      => 'full_name',
+            ],
+        ]);
+
+        $this->db->table('users')
+            ->where('password', null)
+            ->update(['password' => password_hash('pos12345', PASSWORD_DEFAULT)]);
+    }
+
+    public function down()
+    {
+        $this->forge->dropColumn('users', 'password');
+    }
+}

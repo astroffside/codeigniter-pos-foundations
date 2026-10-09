@@ -16,26 +16,26 @@ class AccountFormsTest extends CIUnitTestCase
 
     public function testCustomerAndUserFormPagesAreAvailable(): void
     {
-        $customerForm = $this->get('/customers/new');
+        $customerForm = $this->withSession(['isLoggedIn' => true])->get('/customers/new');
         $customerForm->assertOK();
         $customerForm->assertSee('Full name');
 
-        $userForm = $this->get('/users/new');
+        $userForm = $this->withSession(['isLoggedIn' => true])->get('/users/new');
         $userForm->assertOK();
         $userForm->assertSee('Username');
 
-        $customerEdit = $this->get('/customers/1/edit');
+        $customerEdit = $this->withSession(['isLoggedIn' => true])->get('/customers/1/edit');
         $customerEdit->assertOK();
         $customerEdit->assertSee('Edit Customer');
 
-        $userEdit = $this->get('/users/1/edit');
+        $userEdit = $this->withSession(['isLoggedIn' => true])->get('/users/1/edit');
         $userEdit->assertOK();
         $userEdit->assertSee('Profile photo');
     }
 
     public function testCustomerCreationStoresAValidRecord(): void
     {
-        $result = $this->withBodyFormat('form')->post('/customers', [
+        $result = $this->withSession(['isLoggedIn' => true])->withBodyFormat('form')->post('/customers', [
             'full_name' => 'TFA Three Customer',
             'email'     => 'tfa3.customer@example.com',
             'phone'     => '0917 555 0199',
@@ -47,9 +47,10 @@ class AccountFormsTest extends CIUnitTestCase
 
     public function testUserCreationStoresAUniqueUsername(): void
     {
-        $result = $this->withBodyFormat('form')->post('/users', [
+        $result = $this->withSession(['isLoggedIn' => true])->withBodyFormat('form')->post('/users', [
             'username'  => 'tfa3user',
             'full_name' => 'TFA Three User',
+            'password'  => 'securepass123',
         ]);
 
         $result->assertRedirect();
@@ -58,7 +59,7 @@ class AccountFormsTest extends CIUnitTestCase
 
     public function testUserUpdatePreservesTheExistingUsernameWhenNoAvatarIsUploaded(): void
     {
-        $result = $this->withBodyFormat('form')->post('/users/1', [
+        $result = $this->withSession(['isLoggedIn' => true])->withBodyFormat('form')->post('/users/1', [
             'username'  => 'mgarcia',
             'full_name' => 'Miguel Garcia Updated',
         ]);

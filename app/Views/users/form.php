@@ -39,6 +39,13 @@ $formAction = $isEdit ? site_url('users/' . $user['id']) : site_url('users');
                     <label for="full_name">Full name <span aria-hidden="true">*</span></label>
                     <input id="full_name" name="full_name" type="text" maxlength="100" required value="<?= esc(old('full_name', $user['full_name'] ?? '')) ?>">
                 </div>
+                <?php if (! $isEdit): ?>
+                    <div class="form-field form-field-wide">
+                        <label for="password">Login password <span aria-hidden="true">*</span></label>
+                        <input id="password" name="password" type="password" minlength="8" required autocomplete="new-password">
+                        <p class="field-hint">At least 8 characters. Passwords are stored securely as hashes.</p>
+                    </div>
+                <?php endif ?>
                 <?php if ($isEdit): ?>
                     <div class="form-field form-field-wide">
                         <label for="avatar">Profile photo</label>

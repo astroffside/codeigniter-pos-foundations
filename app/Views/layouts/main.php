@@ -7,6 +7,7 @@
     <title><?= esc($title ?? 'CodeIgniter POS') ?></title>
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/tfa3.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/tfa4.css') ?>">
 </head>
 <body>
     <header class="site-header">
@@ -19,8 +20,17 @@
             <nav class="main-nav" aria-label="Primary navigation">
                 <a class="<?= ($activePage ?? '') === 'home' ? 'is-active' : '' ?>" href="<?= site_url('/') ?>">Home</a>
                 <a class="<?= ($activePage ?? '') === 'about' ? 'is-active' : '' ?>" href="<?= site_url('about') ?>">About</a>
-                <a class="<?= ($activePage ?? '') === 'customers' ? 'is-active' : '' ?>" href="<?= site_url('customers') ?>">Customers</a>
-                <a class="<?= ($activePage ?? '') === 'users' ? 'is-active' : '' ?>" href="<?= site_url('users') ?>">Users</a>
+                <?php if (session('isLoggedIn')): ?>
+                    <a class="<?= ($activePage ?? '') === 'customers' ? 'is-active' : '' ?>" href="<?= site_url('customers') ?>">Customers</a>
+                    <a class="<?= ($activePage ?? '') === 'users' ? 'is-active' : '' ?>" href="<?= site_url('users') ?>">Users</a>
+                    <span class="signed-in-as">Signed in as <?= esc(session('username')) ?></span>
+                    <form action="<?= site_url('logout') ?>" method="post" class="logout-form">
+                        <?= csrf_field() ?>
+                        <button type="submit" class="nav-button">Log out</button>
+                    </form>
+                <?php else: ?>
+                    <a class="<?= ($activePage ?? '') === 'login' ? 'is-active' : '' ?>" href="<?= site_url('login') ?>">Staff login</a>
+                <?php endif ?>
             </nav>
         </div>
     </header>

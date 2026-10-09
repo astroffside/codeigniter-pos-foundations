@@ -1,6 +1,6 @@
-# CodeIgniter POS Database Activity
+# CodeIgniter POS Authentication Activity
 
-A CodeIgniter 4 Point-of-Sale application for IT0049 Technical Formative Assessment 2. It replaces the starter project's controller-local arrays with a MySQL database while keeping the customer and user account pages focused and easy to use.
+A CodeIgniter 4 Point-of-Sale application for IT0049 Technical Formative Assessments 2 through 4. It uses a MySQL database, validated account forms, avatar uploads, and session-based staff authentication.
 
 ## Required pages
 
@@ -8,6 +8,7 @@ A CodeIgniter 4 Point-of-Sale application for IT0049 Technical Formative Assessm
 | --- | --- | --- |
 | / | Pages::index | POS landing page |
 | /about | Pages::about | Activity and MVC overview |
+| /login | Auth::login | Staff login page |
 | /customers | Customers::index | Customer Accounts listing |
 | /users | Users::index | User Accounts listing |
 
@@ -21,6 +22,8 @@ Customer Accounts and User Accounts retrieve their records through CodeIgniter M
 - CodeIgniter migrations and seeders for repeatable setup.
 - A portable SQL database export at database/codeigniter_pos.sql.
 - Automated feature coverage for the four required routes.
+- Hashed user passwords verified with password_verify().
+- Session login/logout flow and an AuthFilter protecting every customer and user account route.
 
 ## Local setup and run
 
@@ -66,6 +69,15 @@ Customer Accounts and User Accounts retrieve their records through CodeIgniter M
 
 6. Open http://localhost:8080/ in a browser.
 
+## Staff login
+
+The seeded accounts use the password `pos12345`. For example, sign in with:
+
+    Username: mgarcia
+    Password: pos12345
+
+After signing in, the Customer Accounts and User Accounts pages, including their create and edit forms, are accessible. Logged-out visitors are redirected to the login page. Use the Log out button in the navigation to destroy the session.
+
 For XAMPP where intl is not enabled by default, use:
 
     C:\xampp\php\php.exe -d extension=intl -S 127.0.0.1:8080 -t public vendor\codeigniter4\framework\system\rewrite.php
@@ -91,9 +103,9 @@ The export and the seeders create the following records:
 | Table | Fields | Sample records |
 | --- | --- | --- |
 | customers | id, full_name, email, phone, created_at | 5 |
-| users | id, username, full_name, created_at | 5 |
+| users | id, username, full_name, password, avatar, created_at | 5 |
 
-The customers.phone field is nullable, and users.username is unique. The activity schema intentionally does not include a role or password field for users.
+The customers.phone field is nullable, users.username is unique, and users.password stores a password_hash() value rather than a plain-text password.
 
 ## Deployment notes
 
