@@ -6,6 +6,7 @@
     <meta name="description" content="CodeIgniter 4 Point-of-Sale application with database-backed accounts">
     <title><?= esc($title ?? 'CodeIgniter POS') ?></title>
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/tfa3.css') ?>">
 </head>
 <body>
     <header class="site-header">
